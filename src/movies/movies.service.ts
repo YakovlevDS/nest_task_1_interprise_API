@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entities';
 
 @Injectable()
@@ -8,23 +9,23 @@ export class MoviesService {
     return this.movies;
   }
 
-  getOne(id: string): Movie {
-    const movie = this.movies.find((movie) => movie.id === +id);
+  getOne(id: number): Movie {
+    const movie = this.movies.find((movie) => movie.id === id);
     if (!movie) {
       throw new NotFoundException(`movie with id =${id} not found`);
     }
     return movie;
   }
 
-  remove(id: string) {
+  remove(id: number) {
     this.getOne(id);
-    this.movies=this.movies.filter((movie) => movie.id !== +id);
+    this.movies=this.movies.filter((movie) => movie.id !== id);
   }
 
-  create(movieData) {
+  create(movieData:CreateMovieDto) {
     this.movies.push({ id: this.movies.length + 1, ...movieData });
   }
-  patch(id: string, updateData) {
+  patch(id: number, updateData) {
     const movie = this.getOne(id);
     this.remove(id);
     this.movies.push({ ...movie, ...updateData });
