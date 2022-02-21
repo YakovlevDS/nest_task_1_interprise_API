@@ -1,7 +1,12 @@
+import { MoviesService } from './movies.service';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 
 @Controller('movies')
 export class MoviesController {
+    constructor(readonly moviesService : MoviesService){
+        
+    }
+    
 @Get()
 getAll(){
     return 'all movies'
