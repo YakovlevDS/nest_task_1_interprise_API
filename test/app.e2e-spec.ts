@@ -16,9 +16,22 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+    return request(app.getHttpServer()).get('/').expect(200).expect('welcome');
+  });
+
+  describe('/movies', () => {
+    it('GET', () => {
+      return request(app.getHttpServer()).get('/movies').expect(200).expect([]);
+    });
+    it('POST', () => {
+      return request(app.getHttpServer())
+        .post('/movies')
+        .send({
+          title: 'Cards, money...!',
+          year: 1998,
+          genres: ['criminal', 'camedy', 'action'],
+        })
+        .expect(201);
+    });
   });
 });
