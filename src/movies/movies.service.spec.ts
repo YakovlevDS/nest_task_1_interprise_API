@@ -34,7 +34,7 @@ describe('MoviesService', () => {
       expect(movie).toBeDefined;
     });
 
-    it('should return  404 error', () => {
+    it('should return error NotFoundException', () => {
       try {
         service.getOne(9999);
       } catch (e) {
@@ -57,7 +57,7 @@ describe('MoviesService', () => {
       expect(afterRemove).toBeLessThan(allMovie);
     });
 
-    it('should return  404 error', () => {
+    it('should return  error NotFoundException', () => {
       try {
         service.remove(9999);
       } catch (e) {
@@ -65,7 +65,6 @@ describe('MoviesService', () => {
       }
     });
   });
-
 
   describe('Testing function create', () => {
     it('should created movie', () => {
@@ -77,11 +76,29 @@ describe('MoviesService', () => {
       });
       const afterCreateMovie = service.getAll().length;
       // console.log(beforeCreateMovie, afterCreateMovie);
-      
+
       expect(beforeCreateMovie).toBeLessThan(afterCreateMovie);
+    });
   });
-});
 
+  describe('Testing function patch', () => {
+    it('should patched movie', () => {
+      service.create({
+        title: 'Cards, money...!!',
+        year: 1998,
+        genres: ['Test genres'],
+      });
+      service.patch(1, { title: 'Pached test' });
+      const movie = service.getOne(1);
+      expect(movie.title).toEqual('Pached test');
+    });
 
-
+    it('should return error NotFoundException', () => {
+      try {
+        service.patch(9999, { title: 'WWW' });
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
 });
