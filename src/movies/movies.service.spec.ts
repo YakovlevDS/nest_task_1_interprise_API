@@ -65,4 +65,23 @@ describe('MoviesService', () => {
       }
     });
   });
+
+
+  describe('Testing function create', () => {
+    it('should created movie', () => {
+      const beforeCreateMovie = service.getAll().length;
+      service.create({
+        title: 'Cards, money...!!',
+        year: 1998,
+        genres: ['Test genres'],
+      });
+      const afterCreateMovie = service.getAll().length;
+      // console.log(beforeCreateMovie, afterCreateMovie);
+      
+      expect(beforeCreateMovie).toBeLessThan(afterCreateMovie);
+  });
+});
+
+
+
 });
