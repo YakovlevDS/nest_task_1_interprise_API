@@ -51,10 +51,18 @@ describe('MoviesService', () => {
         genres: ['Test genres'],
       });
       // console.log(service.getAll());
-      const allMovie = service.getAll();
+      const allMovie = service.getAll().length;
       service.remove(1);
-      const afterRemove = service.getAll();
-      expect(afterRemove.length).toEqual(allMovie.length - 1);
+      const afterRemove = service.getAll().length;
+      expect(afterRemove).toBeLessThan(allMovie);
+    });
+
+    it('should return  404 error', () => {
+      try {
+        service.remove(9999);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
     });
   });
 });
