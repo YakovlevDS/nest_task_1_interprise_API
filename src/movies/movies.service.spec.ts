@@ -32,15 +32,29 @@ describe('MoviesService', () => {
       });
       const movie = service.getOne(1);
       expect(movie).toBeDefined;
-      expect(movie.id).toEqual(1);
     });
 
     it('should return  404 error', () => {
       try {
-        const movie = service.getOne(9999);
+        service.getOne(9999);
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
+    });
+  });
+
+  describe('Testing function remove', () => {
+    it('should removed movie', () => {
+      service.create({
+        title: 'Cards, money...!!',
+        year: 1998,
+        genres: ['Test genres'],
+      });
+      // console.log(service.getAll());
+      const allMovie = service.getAll();
+      service.remove(1);
+      const afterRemove = service.getAll();
+      expect(afterRemove.length).toEqual(allMovie.length - 1);
     });
   });
 });
